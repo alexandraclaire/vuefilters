@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Vue Filters</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+
+<div class="row">
+  <select v-model="sorting" id="sorting">
+    <option value="sort by">Sort by</option>
+    <option value="price">Price</option>
+    <option value="item">Item</option>
+    <option value="category">Category</option>
+  </select>
+
+  <select v-model="catFilter" id="categories">
+    <option value="">All Categories</option>
+    <option value="baking">Baking</option>
+    <option value="music">Music</option>
+    <option value="dogs">Dogs</option>
+    <option value="colours">Colours</option>
+  </select>
+</div>
+<h1>{{title | capitalize }}</h1>
+    <div class="row">
+      <div class="col-md-4">
+        <p class="price"><strong>Price</strong></p>
+      </div>
+      <div class="col-md-4">
+        <p class="item"><strong>Item</strong></p>
+      </div>
+      <div class="col-md-4">
+        <p class="category"><strong>Category</strong></p>
+      </div>
+
+    </div>
+
+  <div v-for="thing in things | orderBy sorting | filterBy catFilter | limitBy 5" class="row">
+    <div class="col-md-4">
+      <p class="price">{{thing.price | currency }} </p>
+
+    </div>
+    <div class="col-md-4">
+      <p class="item">{{thing.item | uppercase}}</p>
+    </div>
+    <div class="col-md-4">
+      <p class="category">{{thing.category | lowercase}}</p>
+    </div>
+
+
+  </div>
+
+
+</div>
+
+
+
+
+
+
+
+<script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.28/vue.min.js"></script>
+<script>
+new Vue ({
+  el: 'body',
+  data: {
+    title: 'vue filters',
+    things: [
+      {item:'Blue', category: 'Colours', price:'1.00'},
+      {item:'German Shepherds', category: 'Dogs', price:'2.00'},
+      {item:'Cookies', category: 'Baking', price:'1.00'},
+      {item:'Cakes', category: 'Baking', price:'5.00'},
+      {item:'Pitbull', category: 'Music', price:'4.00'},
+      {item:'Pugs', category: 'Dogs', price:'4.00'},
+      {item:'Carols', category: 'Music', price:'4.00'},
+      {item:'Pink', category: 'Colours', price:'3.00'}
+    ],
+    sorting: 'sort by',
+    catFilter: ''
+  },
+  filters: {
+      catFilter: function(things) {
+            return things.filter(function(thing) {
+               if (this.catFilter == '') {
+                 return thing;
+               } else {
+                 return thing.category == this.catFilter;
+               }
+            }.bind(this));
+      }
+  }
+
+
+
+});
+
+
+
+
+</script>
+
+</body>
+</html>
