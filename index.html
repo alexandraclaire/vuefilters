@@ -40,7 +40,7 @@
 
     </div>
 
-  <div v-for="thing in things | orderBy sorting | filterBy catFilter | limitBy 5" class="row">
+  <div v-for="thing in things | orderBy sorting | filterBy catFilter | limitBy 4" class="row">
     <div class="col-md-4">
       <p class="price">{{thing.price | currency }} </p>
 
